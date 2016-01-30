@@ -23,7 +23,9 @@ RestClient::RestClient(const char* _host, int _port){
 }
 
 void RestClient::dhcp(){
-  byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+  byte mac[] = { 
+    0x90, 0xA2, 0xDA, 0x0D, 0xE2, 0x3D   };  // correct MAC of the device
+  //  byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
   if (begin(mac) == 0) {
     Serial.println("Failed to configure Ethernet using DHCP");
   }
@@ -100,7 +102,7 @@ void RestClient::setHeader(const char* header){
 // The mother- generic request method.
 //
 int RestClient::request(const char* method, const char* path,
-                  const char* body, String* response){
+const char* body, String* response){
 
   HTTP_DEBUG_PRINT("HTTP: connect\n");
 
@@ -154,7 +156,8 @@ int RestClient::request(const char* method, const char* path,
     HTTP_DEBUG_PRINT("HTTP: client stopped\n");
 
     return statusCode;
-  }else{
+  }
+  else{
     HTTP_DEBUG_PRINT("HTTP Connection failed\n");
     return 0;
   }
@@ -173,7 +176,8 @@ int RestClient::readResponse(String* response) {
 
   if(response == NULL){
     HTTP_DEBUG_PRINT("HTTP: NULL RESPONSE POINTER: \n");
-  }else{
+  }
+  else{
     HTTP_DEBUG_PRINT("HTTP: NON-NULL RESPONSE POINTER: \n");
   }
 
@@ -224,3 +228,4 @@ int RestClient::readResponse(String* response) {
   HTTP_DEBUG_PRINT("HTTP: return readResponse3\n");
   return code;
 }
+

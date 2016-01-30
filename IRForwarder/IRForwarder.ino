@@ -23,6 +23,10 @@
 const int RECV_PIN = 8;
 IRrecv irrecv(RECV_PIN);
 
+String rawstring;
+char _buffer[25];
+
+
 /* Millisecond timer values */
 unsigned long   lastcmd = 0;
 
@@ -49,6 +53,7 @@ void setup() {
   }
   Serial.println("serial comm established");
 */
+
   client.dhcp();
 //  Serial.println("Connected and IP received");
   
@@ -83,7 +88,7 @@ void loop() {
   int statusCode;
 
   if (irrecv.decode(&results)) {
-    if (millis() > (lastcmd + 300)) {
+    if (millis() > (lastcmd + 100)) {
       Serial.println(results.value,HEX);
       /* compare received IR against known commands */
       switch (results.value) {
@@ -142,6 +147,8 @@ void loop() {
       default:
 //        Serial.print("Unknown code: 0x");
 //        Serial.println(results.value, HEX);
+        sprintf(_buffer, "/rawcode/0x%X", results.value);
+        statusCode = client.get(_buffer, &response);
         break;
       }
     /* store time at which last IR command was processed */
