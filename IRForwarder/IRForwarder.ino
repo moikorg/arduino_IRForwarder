@@ -31,7 +31,7 @@ char _buffer[25];
 /* Millisecond timer values */
 unsigned long   lastcmd = 0;
 
-RestClient client = RestClient("sonosRESTAPI", 5000);
+RestClient client = RestClient("sonosRESTAPI.moik.org", 5000);
 
 // Pin assignments
 byte greenLedPin = 9;
